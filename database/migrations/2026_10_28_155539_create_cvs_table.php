@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('cvs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')
-                ->constrained('users') //Tạo FK tham chiếu users.id
-                ->restrictOnDelete(); //Ngăn xóa vật lý User nếu vẫn còn CV liên kết
+                ->constrained('users') // Tạo FK tham chiếu users.id
+                ->restrictOnDelete(); // Ngăn xóa vật lý User nếu vẫn còn CV liên kết
             $table->string('original_name', 255);
             $table->string('storage_path', 512);
             $table->string('disk', 50);
