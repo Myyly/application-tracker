@@ -27,7 +27,7 @@ return new class extends Migration
                 ->default(0)
                 ->comment(
                     '0=Applied, 1=Interviewing, 2=Offered, '
-                    . '3=Rejected, 4=Withdrawn'
+                    .'3=Rejected, 4=Withdrawn'
                 );
             $table->date('applied_at');
             $table->date('deadline')->nullable();
