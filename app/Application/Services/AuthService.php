@@ -2,10 +2,13 @@
 
 namespace App\Application\Services;
 
+use App\Application\DTO\Auth\LoginDTO;
+use App\Application\DTO\Auth\LoginResultDTO;
 use App\Application\DTO\Auth\RegisterDTO;
 use App\Application\Entity\UserEntity;
 use App\Infrastructure\Auth\EmailVerificationVerifier;
 use App\Infrastructure\Auth\RegisteredUserDispatcher;
+use App\Infrastructure\Auth\UserAuthenticator;
 use App\Infrastructure\Repositories\UserRepository;
 use LogicException;
 
@@ -14,8 +17,14 @@ final class AuthService
     public function __construct(
         private readonly EmailVerificationVerifier $emailVerificationVerifier,
         private readonly RegisteredUserDispatcher $registeredUserDispatcher,
+        private readonly UserAuthenticator $userAuthenticator,
         private readonly UserRepository $userRepository,
     ) {}
+
+    public function login(LoginDTO $dto): LoginResultDTO
+    {
+        return $this->userAuthenticator->authenticate($dto);
+    }
 
     public function register(RegisterDTO $dto): UserEntity
     {
