@@ -160,7 +160,6 @@ class UserEntityTest extends TestCase
         $entity->updatedAt = new DateTimeImmutable('2026-10-30 09:00:00+07:00');
 
         $this->assertSame([
-            'id' => 42,
             'name' => 'My Ly',
             'email' => 'myly@example.com',
             'dateOfBirth' => '2000-05-20',
@@ -187,7 +186,6 @@ class UserEntityTest extends TestCase
             'emailVerifiedAt' => null,
         ], $entity->toRegisterArray());
         $this->assertSame([
-            'id' => null,
             'name' => null,
             'email' => null,
             'dateOfBirth' => null,

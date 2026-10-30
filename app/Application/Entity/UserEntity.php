@@ -111,12 +111,13 @@ class UserEntity extends BaseEntity
     }
 
     /**
-     * @return array{id: int|null, name: string|null, email: string|null, dateOfBirth: string|null, gender: int|null, phone: string|null, avatarUrl: null, emailVerifiedAt: string|null}
+     * @return array{name: string|null, email: string|null, dateOfBirth: string|null, gender: int|null, phone: string|null, avatarUrl: null, emailVerifiedAt: string|null}
      */
     public function toDetailArray(): array
     {
         return [
-            ...$this->toArray(),
+            'name' => $this->name,
+            'email' => $this->email,
             'dateOfBirth' => $this->dateOfBirth,
             'gender' => $this->gender,
             'phone' => $this->phone,

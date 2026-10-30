@@ -6,6 +6,7 @@ use App\Application\DTO\Auth\LoginDTO;
 use App\Application\DTO\Auth\LoginResultDTO;
 use App\Application\DTO\Auth\RegisterDTO;
 use App\Application\Entity\UserEntity;
+use App\Exceptions\NotFoundException;
 use App\Infrastructure\Auth\EmailVerificationVerifier;
 use App\Infrastructure\Auth\RegisteredUserDispatcher;
 use App\Infrastructure\Auth\UserAuthenticator;
@@ -24,6 +25,12 @@ final class AuthService
     public function login(LoginDTO $dto): LoginResultDTO
     {
         return $this->userAuthenticator->authenticate($dto);
+    }
+
+    public function getProfile(int $userId): UserEntity
+    {
+        return $this->userRepository->findById($userId)
+            ?? throw new NotFoundException;
     }
 
     public function register(RegisterDTO $dto): UserEntity

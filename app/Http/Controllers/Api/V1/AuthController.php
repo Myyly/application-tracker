@@ -9,6 +9,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Transformers\UserTransformer;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 final class AuthController extends AppApiController
 {
@@ -26,6 +27,15 @@ final class AuthController extends AppApiController
         ));
 
         return $this->success($result->toArray());
+    }
+
+    public function profile(Request $request): JsonResponse
+    {
+        // Sanctum authenticates the bearer token first; this ID comes from auth context, never client input.
+        $userId = (int) $request->user()->getAuthIdentifier();
+        $entity = $this->authService->getProfile($userId);
+
+        return $this->success($this->userTransformer->transformForProfile($entity));
     }
 
     public function register(RegisterRequest $request): JsonResponse

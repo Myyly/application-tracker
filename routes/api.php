@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\EmailVerificationController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/v1/email/verify/{id}/{hash}', EmailVerificationController::class)
@@ -18,6 +17,6 @@ Route::post('/v1/register', action: [AuthController::class, 'register']);
 Route::post('/v1/login', [AuthController::class, 'login'])
     ->middleware('throttle:login');
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::get('/v1/me', [AuthController::class, 'profile'])
+    // Unverified users may read emailVerifiedAt so the frontend can choose its next screen.
+    ->middleware('auth:sanctum');
