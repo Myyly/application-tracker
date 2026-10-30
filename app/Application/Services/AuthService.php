@@ -5,6 +5,7 @@ namespace App\Application\Services;
 use App\Application\DTO\Auth\LoginDTO;
 use App\Application\DTO\Auth\LoginResultDTO;
 use App\Application\DTO\Auth\RegisterDTO;
+use App\Application\DTO\Auth\UpdateProfileDTO;
 use App\Application\Entity\UserEntity;
 use App\Exceptions\NotFoundException;
 use App\Infrastructure\Auth\EmailVerificationVerifier;
@@ -31,6 +32,11 @@ final class AuthService
     {
         return $this->userRepository->findById($userId)
             ?? throw new NotFoundException;
+    }
+
+    public function updateProfile(int $userId, UpdateProfileDTO $dto): UserEntity
+    {
+        return $this->userRepository->updateProfile($userId, $dto);
     }
 
     public function register(RegisterDTO $dto): UserEntity

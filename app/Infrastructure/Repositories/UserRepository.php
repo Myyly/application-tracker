@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Repositories;
 
 use App\Application\DTO\Auth\RegisterDTO;
+use App\Application\DTO\Auth\UpdateProfileDTO;
 use App\Application\Entity\UserEntity;
 use App\Models\User;
 
@@ -31,6 +32,32 @@ class UserRepository
         $model = User::query()->where(UserEntity::EMAIL, $email)->first();
 
         return $model === null ? null : $this->toEntity($model);
+    }
+
+    public function updateProfile(int $id, UpdateProfileDTO $dto): UserEntity
+    {
+        $attributes = [];
+
+        if ($dto->hasName()) {
+            $attributes[UserEntity::NAME] = $dto->getName();
+        }
+
+        if ($dto->hasDateOfBirth()) {
+            $attributes[UserEntity::DATE_OF_BIRTH] = $dto->getDateOfBirth();
+        }
+
+        if ($dto->hasGender()) {
+            $attributes[UserEntity::GENDER] = $dto->getGender();
+        }
+
+        if ($dto->hasPhone()) {
+            $attributes[UserEntity::PHONE] = $dto->getPhone();
+        }
+
+        $model = User::query()->findOrFail($id);
+        $model->fill($attributes)->save();
+
+        return $this->toEntity($model->refresh());
     }
 
     private function toEntity(User $model): UserEntity

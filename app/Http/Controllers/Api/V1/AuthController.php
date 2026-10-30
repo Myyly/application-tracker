@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Application\DTO\Auth\LoginDTO;
 use App\Application\DTO\Auth\RegisterDTO;
+use App\Application\DTO\Auth\UpdateProfileDTO;
 use App\Application\Services\AuthService;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\Auth\UpdateProfileRequest;
 use App\Transformers\UserTransformer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -34,6 +36,16 @@ final class AuthController extends AppApiController
         // Sanctum authenticates the bearer token first; this ID comes from auth context, never client input.
         $userId = (int) $request->user()->getAuthIdentifier();
         $entity = $this->authService->getProfile($userId);
+
+        return $this->success($this->userTransformer->transformForProfile($entity));
+    }
+
+    public function updateProfile(UpdateProfileRequest $request): JsonResponse
+    {
+        // The DTO distinguishes omitted fields from explicit null so PATCH can preserve or clear values.
+        $dto = UpdateProfileDTO::fromValidated($request->validated());
+        $userId = (int) $request->user()->getAuthIdentifier();
+        $entity = $this->authService->updateProfile($userId, $dto);
 
         return $this->success($this->userTransformer->transformForProfile($entity));
     }

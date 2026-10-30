@@ -20,3 +20,6 @@ Route::post('/v1/login', [AuthController::class, 'login'])
 Route::get('/v1/me', [AuthController::class, 'profile'])
     // Unverified users may read emailVerifiedAt so the frontend can choose its next screen.
     ->middleware('auth:sanctum');
+
+Route::patch('/v1/me', [AuthController::class, 'updateProfile'])
+    ->middleware('auth:sanctum');
