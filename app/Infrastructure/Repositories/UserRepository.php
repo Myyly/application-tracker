@@ -2,11 +2,23 @@
 
 namespace App\Infrastructure\Repositories;
 
+use App\Application\DTO\Auth\RegisterDTO;
 use App\Application\Entity\UserEntity;
 use App\Models\User;
 
 class UserRepository
 {
+    public function create(RegisterDTO $dto): UserEntity
+    {
+        $model = User::query()->create([
+            UserEntity::NAME => $dto->getName(),
+            UserEntity::EMAIL => $dto->getEmail(),
+            UserEntity::PASSWORD => $dto->getPassword(),
+        ]);
+
+        return $this->toEntity($model);
+    }
+
     public function findById(int $id): ?UserEntity
     {
         $model = User::query()->find($id);
