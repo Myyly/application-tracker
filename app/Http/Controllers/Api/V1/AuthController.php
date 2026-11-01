@@ -14,6 +14,8 @@ use App\Transformers\UserTransformer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Laravel\Sanctum\PersonalAccessToken;
+use LogicException;
 
 final class AuthController extends AppApiController
 {
@@ -31,6 +33,22 @@ final class AuthController extends AppApiController
         ));
 
         return $this->success($result->toArray());
+    }
+
+    public function logout(Request $request): JsonResponse
+    {
+        // Sanctum attaches the exact bearer token used for this request; this is not a session logout.
+        $currentAccessToken = $request->user()->currentAccessToken();
+
+        if (! $currentAccessToken instanceof PersonalAccessToken) {
+            throw new LogicException('A bearer-authenticated request must have a personal access token.');
+        }
+
+        $this->authService->logout(
+            (int) $currentAccessToken->getKey(),
+        );
+
+        return $this->success(null, 'Logged out successfully');
     }
 
     public function profile(Request $request): JsonResponse

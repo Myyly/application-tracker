@@ -8,6 +8,7 @@ use App\Application\DTO\Auth\RegisterDTO;
 use App\Application\DTO\Auth\UpdateProfileDTO;
 use App\Application\Entity\UserEntity;
 use App\Exceptions\NotFoundException;
+use App\Infrastructure\Auth\CurrentAccessTokenRevoker;
 use App\Infrastructure\Auth\EmailVerificationVerifier;
 use App\Infrastructure\Auth\RegisteredUserDispatcher;
 use App\Infrastructure\Auth\UserAuthenticator;
@@ -21,6 +22,7 @@ use Throwable;
 final class AuthService
 {
     public function __construct(
+        private readonly CurrentAccessTokenRevoker $currentAccessTokenRevoker,
         private readonly EmailVerificationVerifier $emailVerificationVerifier,
         private readonly RegisteredUserDispatcher $registeredUserDispatcher,
         private readonly UserAuthenticator $userAuthenticator,
@@ -31,6 +33,11 @@ final class AuthService
     public function login(LoginDTO $dto): LoginResultDTO
     {
         return $this->userAuthenticator->authenticate($dto);
+    }
+
+    public function logout(int $currentAccessTokenId): void
+    {
+        $this->currentAccessTokenRevoker->revoke($currentAccessTokenId);
     }
 
     public function getProfile(int $userId): UserEntity

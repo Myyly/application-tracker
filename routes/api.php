@@ -17,6 +17,9 @@ Route::post('/v1/register', action: [AuthController::class, 'register']);
 Route::post('/v1/login', [AuthController::class, 'login'])
     ->middleware('throttle:login');
 
+Route::post('/v1/logout', [AuthController::class, 'logout'])
+    ->middleware('auth:sanctum');
+
 Route::get('/v1/me', [AuthController::class, 'profile'])
     // Unverified users may read emailVerifiedAt so the frontend can choose its next screen.
     ->middleware('auth:sanctum');
