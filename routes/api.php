@@ -23,3 +23,6 @@ Route::get('/v1/me', [AuthController::class, 'profile'])
 
 Route::patch('/v1/me', [AuthController::class, 'updateProfile'])
     ->middleware('auth:sanctum');
+
+Route::post('/v1/me/avatar', [AuthController::class, 'uploadAvatar'])
+    ->middleware('auth:sanctum');

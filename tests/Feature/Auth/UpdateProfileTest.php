@@ -317,6 +317,10 @@ class UpdateProfileTest extends TestCase
             ->assertOk()
             ->assertJsonPath('data.name', 'Allowed Change')
             ->assertJsonPath('data.email', 'protected@example.com')
+            ->assertJsonPath(
+                'data.avatarUrl',
+                'http://localhost:8000/storage/avatars/private.jpg',
+            )
             ->assertJsonMissingPaths([
                 'data.id',
                 'data.password',

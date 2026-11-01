@@ -53,6 +53,7 @@ class UserTransformerTest extends TestCase
         $entity->gender = USER_GENDER_FEMALE;
         $entity->phone = '0901234567';
         $entity->avatarPath = 'avatars/private.jpg';
+        $entity->avatarUrl = 'http://localhost/storage/avatars/private.jpg';
         $entity->emailVerifiedAt = new DateTimeImmutable('2026-10-30 15:00:00+07:00');
         $entity->createdAt = new DateTimeImmutable('2026-10-29 08:00:00+07:00');
         $entity->updatedAt = new DateTimeImmutable('2026-10-30 09:00:00+07:00');
@@ -65,7 +66,7 @@ class UserTransformerTest extends TestCase
             'dateOfBirth' => '2000-05-20',
             'gender' => USER_GENDER_FEMALE,
             'phone' => '0901234567',
-            'avatarUrl' => null,
+            'avatarUrl' => 'http://localhost/storage/avatars/private.jpg',
             'emailVerifiedAt' => '2026-10-30T15:00:00+07:00',
         ], $data);
     }

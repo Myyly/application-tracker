@@ -9,9 +9,11 @@ use App\Application\Services\AuthService;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\Auth\UpdateProfileRequest;
+use App\Http\Requests\Auth\UploadAvatarRequest;
 use App\Transformers\UserTransformer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 
 final class AuthController extends AppApiController
 {
@@ -46,6 +48,16 @@ final class AuthController extends AppApiController
         $dto = UpdateProfileDTO::fromValidated($request->validated());
         $userId = (int) $request->user()->getAuthIdentifier();
         $entity = $this->authService->updateProfile($userId, $dto);
+
+        return $this->success($this->userTransformer->transformForProfile($entity));
+    }
+
+    public function uploadAvatar(UploadAvatarRequest $request): JsonResponse
+    {
+        $userId = (int) $request->user()->getAuthIdentifier();
+        /** @var UploadedFile $avatar */
+        $avatar = $request->file('avatar');
+        $entity = $this->authService->uploadAvatar($userId, $avatar);
 
         return $this->success($this->userTransformer->transformForProfile($entity));
     }

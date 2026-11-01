@@ -46,6 +46,7 @@ class UserEntityTest extends TestCase
         $this->assertSame('gender', UserEntity::PROPERTY_GENDER);
         $this->assertSame('phone', UserEntity::PROPERTY_PHONE);
         $this->assertSame('avatarPath', UserEntity::PROPERTY_AVATAR_PATH);
+        $this->assertSame('avatarUrl', UserEntity::PROPERTY_AVATAR_URL);
         $this->assertSame('emailVerifiedAt', UserEntity::PROPERTY_EMAIL_VERIFIED_AT);
         $this->assertSame('createdAt', UserEntity::PROPERTY_CREATED_AT);
         $this->assertSame('updatedAt', UserEntity::PROPERTY_UPDATED_AT);
@@ -62,6 +63,7 @@ class UserEntityTest extends TestCase
         $this->assertNull($entity->gender);
         $this->assertNull($entity->phone);
         $this->assertNull($entity->avatarPath);
+        $this->assertNull($entity->avatarUrl);
         $this->assertNull($entity->emailVerifiedAt);
         $this->assertNull($entity->createdAt);
         $this->assertNull($entity->updatedAt);
@@ -81,6 +83,7 @@ class UserEntityTest extends TestCase
         $entity->gender = USER_GENDER_FEMALE;
         $entity->phone = '0901234567';
         $entity->avatarPath = 'avatars/my-ly.jpg';
+        $entity->avatarUrl = 'http://localhost/storage/avatars/my-ly.jpg';
         $entity->emailVerifiedAt = $emailVerifiedAt;
         $entity->createdAt = $createdAt;
         $entity->updatedAt = $updatedAt;
@@ -92,6 +95,7 @@ class UserEntityTest extends TestCase
         $this->assertSame(USER_GENDER_FEMALE, $entity->gender);
         $this->assertSame('0901234567', $entity->phone);
         $this->assertSame('avatars/my-ly.jpg', $entity->avatarPath);
+        $this->assertSame('http://localhost/storage/avatars/my-ly.jpg', $entity->avatarUrl);
         $this->assertSame($emailVerifiedAt, $entity->emailVerifiedAt);
         $this->assertSame($createdAt, $entity->createdAt);
         $this->assertSame($updatedAt, $entity->updatedAt);
@@ -101,6 +105,7 @@ class UserEntityTest extends TestCase
         $this->assertSame(USER_GENDER_FEMALE, $entity->getGender());
         $this->assertSame('0901234567', $entity->getPhone());
         $this->assertSame('avatars/my-ly.jpg', $entity->getAvatarPath());
+        $this->assertSame('http://localhost/storage/avatars/my-ly.jpg', $entity->getAvatarUrl());
         $this->assertSame($emailVerifiedAt, $entity->getEmailVerifiedAt());
         $this->assertSame(42, $entity->getId());
         $this->assertSame($createdAt, $entity->getCreatedAt());
@@ -118,6 +123,7 @@ class UserEntityTest extends TestCase
         $entity->gender = USER_GENDER_MALE;
         $entity->phone = '0901234567';
         $entity->avatarPath = 'avatars/private.jpg';
+        $entity->avatarUrl = 'http://localhost/storage/avatars/private.jpg';
         $entity->emailVerifiedAt = new DateTimeImmutable('2026-10-30 15:00:00+07:00');
         $entity->createdAt = new DateTimeImmutable('2026-10-29 08:00:00+07:00');
         $entity->updatedAt = new DateTimeImmutable('2026-10-30 09:00:00+07:00');
@@ -155,6 +161,7 @@ class UserEntityTest extends TestCase
         $entity->gender = USER_GENDER_MALE;
         $entity->phone = '0901234567';
         $entity->avatarPath = 'avatars/private.jpg';
+        $entity->avatarUrl = 'http://localhost/storage/avatars/private.jpg';
         $entity->emailVerifiedAt = new DateTimeImmutable('2026-10-30 15:00:00+07:00');
         $entity->createdAt = new DateTimeImmutable('2026-10-29 08:00:00+07:00');
         $entity->updatedAt = new DateTimeImmutable('2026-10-30 09:00:00+07:00');
@@ -165,7 +172,7 @@ class UserEntityTest extends TestCase
             'dateOfBirth' => '2000-05-20',
             'gender' => USER_GENDER_MALE,
             'phone' => '0901234567',
-            'avatarUrl' => null,
+            'avatarUrl' => 'http://localhost/storage/avatars/private.jpg',
             'emailVerifiedAt' => '2026-10-30T15:00:00+07:00',
         ], $entity->toDetailArray());
     }
@@ -201,6 +208,7 @@ class UserEntityTest extends TestCase
         $this->assertNull($entity->getGender());
         $this->assertNull($entity->getPhone());
         $this->assertNull($entity->getAvatarPath());
+        $this->assertNull($entity->getAvatarUrl());
         $this->assertNull($entity->getEmailVerifiedAt());
         $this->assertNull($entity->getId());
         $this->assertNull($entity->getCreatedAt());

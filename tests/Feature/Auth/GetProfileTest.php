@@ -39,7 +39,7 @@ class GetProfileTest extends TestCase
                     'dateOfBirth' => '2000-05-20',
                     'gender' => USER_GENDER_FEMALE,
                     'phone' => '0901234567',
-                    'avatarUrl' => null,
+                    'avatarUrl' => 'http://localhost:8000/storage/avatars/internal.jpg',
                     'emailVerifiedAt' => '2026-10-30T11:00:00+00:00',
                 ],
             ]);

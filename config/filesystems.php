@@ -15,6 +15,8 @@ return [
 
     'default' => env('FILESYSTEM_DISK', 'local'),
 
+    'avatar_disk' => env('AVATAR_DISK', 'public'),
+
     /*
     |--------------------------------------------------------------------------
     | Filesystem Disks

@@ -6,6 +6,7 @@ use App\Application\DTO\Auth\RegisterDTO;
 use App\Application\DTO\Auth\UpdateProfileDTO;
 use App\Application\Entity\UserEntity;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class UserRepository
 {
@@ -58,6 +59,26 @@ class UserRepository
         $model->fill($attributes)->save();
 
         return $this->toEntity($model->refresh());
+    }
+
+    /**
+     * @return array{entity: UserEntity, previousAvatarPath: string|null}
+     */
+    public function replaceAvatarPath(int $id, string $avatarPath): array
+    {
+        return DB::transaction(function () use ($id, $avatarPath): array {
+            $model = User::query()->lockForUpdate()->findOrFail($id);
+            $previousAvatarPath = $model->{UserEntity::AVATAR_PATH};
+
+            $model->fill([
+                UserEntity::AVATAR_PATH => $avatarPath,
+            ])->save();
+
+            return [
+                'entity' => $this->toEntity($model->refresh()),
+                'previousAvatarPath' => $previousAvatarPath,
+            ];
+        });
     }
 
     private function toEntity(User $model): UserEntity

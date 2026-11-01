@@ -36,6 +36,8 @@ class UserEntity extends BaseEntity
 
     public const PROPERTY_AVATAR_PATH = 'avatarPath';
 
+    public const PROPERTY_AVATAR_URL = 'avatarUrl';
+
     public const PROPERTY_EMAIL_VERIFIED_AT = 'emailVerifiedAt';
 
     public ?string $name = null;
@@ -49,6 +51,8 @@ class UserEntity extends BaseEntity
     public ?string $phone = null;
 
     public ?string $avatarPath = null;
+
+    public ?string $avatarUrl = null;
 
     public ?DateTimeImmutable $emailVerifiedAt = null;
 
@@ -82,6 +86,11 @@ class UserEntity extends BaseEntity
         return $this->avatarPath;
     }
 
+    public function getAvatarUrl(): ?string
+    {
+        return $this->avatarUrl;
+    }
+
     public function getEmailVerifiedAt(): ?DateTimeImmutable
     {
         return $this->emailVerifiedAt;
@@ -111,7 +120,7 @@ class UserEntity extends BaseEntity
     }
 
     /**
-     * @return array{name: string|null, email: string|null, dateOfBirth: string|null, gender: int|null, phone: string|null, avatarUrl: null, emailVerifiedAt: string|null}
+     * @return array{name: string|null, email: string|null, dateOfBirth: string|null, gender: int|null, phone: string|null, avatarUrl: string|null, emailVerifiedAt: string|null}
      */
     public function toDetailArray(): array
     {
@@ -121,7 +130,7 @@ class UserEntity extends BaseEntity
             'dateOfBirth' => $this->dateOfBirth,
             'gender' => $this->gender,
             'phone' => $this->phone,
-            'avatarUrl' => null,
+            'avatarUrl' => $this->avatarUrl,
             'emailVerifiedAt' => $this->emailVerifiedAt?->format(DATE_ATOM),
         ];
     }
