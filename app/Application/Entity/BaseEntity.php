@@ -6,11 +6,23 @@ use DateTimeImmutable;
 
 abstract class BaseEntity
 {
-    protected ?int $id = null;
+    public const ID = 'id';
 
-    protected ?DateTimeImmutable $createdAt = null;
+    public const CREATED_AT = 'created_at';
 
-    protected ?DateTimeImmutable $updatedAt = null;
+    public const UPDATED_AT = 'updated_at';
+
+    public const PROPERTY_ID = 'id';
+
+    public const PROPERTY_CREATED_AT = 'createdAt';
+
+    public const PROPERTY_UPDATED_AT = 'updatedAt';
+
+    public ?int $id = null;
+
+    public ?DateTimeImmutable $createdAt = null;
+
+    public ?DateTimeImmutable $updatedAt = null;
 
     public function getId(): ?int
     {
