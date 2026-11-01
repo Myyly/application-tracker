@@ -17,6 +17,9 @@ Route::post('/v1/register', action: [AuthController::class, 'register']);
 Route::post('/v1/login', [AuthController::class, 'login'])
     ->middleware('throttle:login');
 
+Route::post('/v1/forgot-password', [AuthController::class, 'forgotPassword'])
+    ->middleware('throttle:forgot-password');
+
 Route::post('/v1/logout', [AuthController::class, 'logout'])
     ->middleware('auth:sanctum');
 

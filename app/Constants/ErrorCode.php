@@ -6,6 +6,8 @@ final class ErrorCode
 {
     public const INVALID_CREDENTIALS = 'INVALID_CREDENTIALS';
 
+    public const EMAIL_NOT_FOUND = 'EMAIL_NOT_FOUND';
+
     public const TOKEN_EXPIRED = 'TOKEN_EXPIRED';
 
     public const UNAUTHORIZED = 'UNAUTHORIZED';

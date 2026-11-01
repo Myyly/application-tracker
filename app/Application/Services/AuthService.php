@@ -11,6 +11,7 @@ use App\Exceptions\NotFoundException;
 use App\Infrastructure\Auth\CurrentAccessTokenRevoker;
 use App\Infrastructure\Auth\EmailVerificationResender;
 use App\Infrastructure\Auth\EmailVerificationVerifier;
+use App\Infrastructure\Auth\PasswordResetLinkSender;
 use App\Infrastructure\Auth\RegisteredUserDispatcher;
 use App\Infrastructure\Auth\UserAuthenticator;
 use App\Infrastructure\Repositories\UserRepository;
@@ -26,6 +27,7 @@ final class AuthService
         private readonly CurrentAccessTokenRevoker $currentAccessTokenRevoker,
         private readonly EmailVerificationResender $emailVerificationResender,
         private readonly EmailVerificationVerifier $emailVerificationVerifier,
+        private readonly PasswordResetLinkSender $passwordResetLinkSender,
         private readonly RegisteredUserDispatcher $registeredUserDispatcher,
         private readonly UserAuthenticator $userAuthenticator,
         private readonly UserRepository $userRepository,
@@ -35,6 +37,11 @@ final class AuthService
     public function login(LoginDTO $dto): LoginResultDTO
     {
         return $this->userAuthenticator->authenticate($dto);
+    }
+
+    public function forgotPassword(string $email): void
+    {
+        $this->passwordResetLinkSender->send($email);
     }
 
     public function logout(int $currentAccessTokenId): void

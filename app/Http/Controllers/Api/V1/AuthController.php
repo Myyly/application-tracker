@@ -6,6 +6,7 @@ use App\Application\DTO\Auth\LoginDTO;
 use App\Application\DTO\Auth\RegisterDTO;
 use App\Application\DTO\Auth\UpdateProfileDTO;
 use App\Application\Services\AuthService;
+use App\Http\Requests\Auth\ForgotPasswordRequest;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\Auth\UpdateProfileRequest;
@@ -33,6 +34,16 @@ final class AuthController extends AppApiController
         ));
 
         return $this->success($result->toArray());
+    }
+
+    public function forgotPassword(ForgotPasswordRequest $request): JsonResponse
+    {
+        $this->authService->forgotPassword($request->validated('email'));
+
+        return $this->success(
+            null,
+            'If an account exists for this email, a password reset link will be sent.',
+        );
     }
 
     public function logout(Request $request): JsonResponse
