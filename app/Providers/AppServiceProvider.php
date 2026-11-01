@@ -48,6 +48,11 @@ class AppServiceProvider extends ServiceProvider
             return Limit::perMinute(5)->by($request->ip());
         });
 
+        RateLimiter::for('reset-password', function (Request $request): Limit {
+            // Count valid and invalid recovery attempts in an independent five-per-minute IP bucket.
+            return Limit::perMinute(5)->by($request->ip());
+        });
+
         RateLimiter::for('verification-resend', function (Request $request): Limit {
             $userId = $request->user()?->getAuthIdentifier();
 

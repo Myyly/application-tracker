@@ -20,6 +20,9 @@ Route::post('/v1/login', [AuthController::class, 'login'])
 Route::post('/v1/forgot-password', [AuthController::class, 'forgotPassword'])
     ->middleware('throttle:forgot-password');
 
+Route::post('/v1/reset-password', [AuthController::class, 'resetPassword'])
+    ->middleware('throttle:reset-password');
+
 Route::post('/v1/logout', [AuthController::class, 'logout'])
     ->middleware('auth:sanctum');
 

@@ -5,6 +5,7 @@ namespace App\Application\Services;
 use App\Application\DTO\Auth\LoginDTO;
 use App\Application\DTO\Auth\LoginResultDTO;
 use App\Application\DTO\Auth\RegisterDTO;
+use App\Application\DTO\Auth\ResetPasswordDTO;
 use App\Application\DTO\Auth\UpdateProfileDTO;
 use App\Application\Entity\UserEntity;
 use App\Exceptions\NotFoundException;
@@ -12,6 +13,7 @@ use App\Infrastructure\Auth\CurrentAccessTokenRevoker;
 use App\Infrastructure\Auth\EmailVerificationResender;
 use App\Infrastructure\Auth\EmailVerificationVerifier;
 use App\Infrastructure\Auth\PasswordResetLinkSender;
+use App\Infrastructure\Auth\PasswordResetter;
 use App\Infrastructure\Auth\RegisteredUserDispatcher;
 use App\Infrastructure\Auth\UserAuthenticator;
 use App\Infrastructure\Repositories\UserRepository;
@@ -28,6 +30,7 @@ final class AuthService
         private readonly EmailVerificationResender $emailVerificationResender,
         private readonly EmailVerificationVerifier $emailVerificationVerifier,
         private readonly PasswordResetLinkSender $passwordResetLinkSender,
+        private readonly PasswordResetter $passwordResetter,
         private readonly RegisteredUserDispatcher $registeredUserDispatcher,
         private readonly UserAuthenticator $userAuthenticator,
         private readonly UserRepository $userRepository,
@@ -42,6 +45,15 @@ final class AuthService
     public function forgotPassword(string $email): void
     {
         $this->passwordResetLinkSender->send($email);
+    }
+
+    public function resetPassword(ResetPasswordDTO $dto): void
+    {
+        $this->passwordResetter->reset(
+            $dto->getEmail(),
+            $dto->getToken(),
+            $dto->getPassword(),
+        );
     }
 
     public function logout(int $currentAccessTokenId): void

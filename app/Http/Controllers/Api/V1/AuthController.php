@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Application\DTO\Auth\LoginDTO;
 use App\Application\DTO\Auth\RegisterDTO;
+use App\Application\DTO\Auth\ResetPasswordDTO;
 use App\Application\DTO\Auth\UpdateProfileDTO;
 use App\Application\Services\AuthService;
 use App\Http\Requests\Auth\ForgotPasswordRequest;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\Auth\ResetPasswordRequest;
 use App\Http\Requests\Auth\UpdateProfileRequest;
 use App\Http\Requests\Auth\UploadAvatarRequest;
 use App\Transformers\UserTransformer;
@@ -44,6 +46,18 @@ final class AuthController extends AppApiController
             null,
             'If an account exists for this email, a password reset link will be sent.',
         );
+    }
+
+    public function resetPassword(ResetPasswordRequest $request): JsonResponse
+    {
+        $validated = $request->validated();
+        $this->authService->resetPassword(new ResetPasswordDTO(
+            email: $validated['email'],
+            token: $validated['token'],
+            password: $validated['password'],
+        ));
+
+        return $this->success(null, 'Password reset successfully');
     }
 
     public function logout(Request $request): JsonResponse

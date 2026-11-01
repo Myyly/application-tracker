@@ -14,6 +14,8 @@ final class ErrorCode
 
     public const INVALID_TOKEN = 'INVALID_TOKEN';
 
+    public const INVALID_RESET_TOKEN = 'INVALID_RESET_TOKEN';
+
     public const FORBIDDEN = 'FORBIDDEN';
 
     public const NOT_FOUND = 'NOT_FOUND';
