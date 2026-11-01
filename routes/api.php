@@ -20,6 +20,9 @@ Route::post('/v1/login', [AuthController::class, 'login'])
 Route::post('/v1/logout', [AuthController::class, 'logout'])
     ->middleware('auth:sanctum');
 
+Route::post('/v1/email/verification/resend', [AuthController::class, 'resendEmailVerification'])
+    ->middleware(['auth:sanctum', 'throttle:verification-resend']);
+
 Route::get('/v1/me', [AuthController::class, 'profile'])
     // Unverified users may read emailVerifiedAt so the frontend can choose its next screen.
     ->middleware('auth:sanctum');

@@ -51,6 +51,20 @@ final class AuthController extends AppApiController
         return $this->success(null, 'Logged out successfully');
     }
 
+    public function resendEmailVerification(Request $request): JsonResponse
+    {
+        $notificationSent = $this->authService->resendEmailVerification(
+            (int) $request->user()->getAuthIdentifier(),
+        );
+
+        return $this->success(
+            null,
+            $notificationSent
+                ? 'Verification email sent successfully'
+                : 'Email already verified',
+        );
+    }
+
     public function profile(Request $request): JsonResponse
     {
         // Sanctum authenticates the bearer token first; this ID comes from auth context, never client input.
